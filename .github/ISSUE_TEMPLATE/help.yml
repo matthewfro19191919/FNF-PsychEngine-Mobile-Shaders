@@ -41,7 +41,11 @@ body:
       label: "Which psych engine version you're on?"
       options:
         - "DevBuild"
-        - "1.0 (Final)"
+        - "1.0.3"
+        - "1.0.2h"
+        - "1.0.2"
+        - "1.0.1"
+        - "1.0"
         - "1.0 (Prerelease)"
         - "0.7.x"
         - "0.6.x or older"
