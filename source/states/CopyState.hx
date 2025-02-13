@@ -88,13 +88,13 @@ class CopyState extends MusicBeatState
 
 		thread = new ThreadPool(0, CoolUtil.getCPUThreadsCount(), MULTI_THREADED);
 		new FlxTimer().start(0.5, (tmr) -> {
-			thread.run(function(poop) {
+			thread.run(function(poop, shit) {
 				for (file in locatedFiles)
 				{
 					copyAsset(file);
 					loopTimes++;
 				}
-			});
+			}, null);
 		});
 
 		super.create();
