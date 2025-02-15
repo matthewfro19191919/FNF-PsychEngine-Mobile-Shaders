@@ -93,6 +93,7 @@ class CopyState extends MusicBeatState
 				{
 					copyAsset(file);
 					loopTimes++;
+					loadingBar.percent = (loopTimes / maxLoopTimes) * 100;
 				}
 			}, null);
 		});
@@ -104,7 +105,6 @@ class CopyState extends MusicBeatState
 	{
 		if (shouldCopy)
 		{
-			loadingBar.percent = loopTimes / maxLoopTimes * 100;
 			if (loopTimes >= maxLoopTimes && canUpdate)
 			{
 				canUpdate = false;
