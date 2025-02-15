@@ -6,7 +6,7 @@ echo Installing dependencies...
 echo This might take a few moments depending on your internet speed.
 haxelib git hxcpp https://github.com/mcagabe19-stuff/hxcpp --quiet
 haxelib git lime https://github.com/mcagabe19-stuff/lime --quiet
-haxelib install openfl 9.3.3 --quiet
+haxelib git openfl https://github.com/mcagabe19-stuff/openfl 9.3.3 --quiet
 haxelib git flixel https://github.com/MobilePorting/flixel 5.6.1 --quiet
 haxelib install flixel-addons 3.2.2 --quiet
 haxelib install flixel-tools 1.5.1 --quiet
