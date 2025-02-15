@@ -93,7 +93,6 @@ class CopyState extends MusicBeatState
 				{
 					loopTimes++;
 					copyAsset(file);
-					loadingBar.percent = (loopTimes / maxLoopTimes) * 100;
 				}
 			}, null);
 		});
@@ -127,6 +126,8 @@ class CopyState extends MusicBeatState
 				loadedText.text = "Completed!";
 			else
 				loadedText.text = '$loopTimes/$maxLoopTimes';
+
+			loadingBar.percent = Math.min((loopTimes / maxLoopTimes) * 100, 100);
 		}
 		super.update(elapsed);
 	}
