@@ -91,8 +91,8 @@ class CopyState extends MusicBeatState
 			thread.run(function(poop, shit) {
 				for (file in locatedFiles)
 				{
-					copyAsset(file);
 					loopTimes++;
+					copyAsset(file);
 					loadingBar.percent = (loopTimes / maxLoopTimes) * 100;
 				}
 			}, null);
@@ -107,9 +107,6 @@ class CopyState extends MusicBeatState
 		{
 			if (loopTimes >= maxLoopTimes && canUpdate)
 			{
-				canUpdate = false;
-				thread.cancel();
-
 				if (failedFiles.length > 0)
 				{
 					CoolUtil.showPopUp(failedFiles.join('\n'), 'Failed To Copy ${failedFiles.length} File.');
@@ -117,10 +114,14 @@ class CopyState extends MusicBeatState
 						FileSystem.createDirectory('logs');
 					File.saveContent('logs/' + Date.now().toString().replace(' ', '-').replace(':', "'") + '-CopyState' + '.txt', failedFilesStack.join('\n'));
 				}
+				
 				FlxG.sound.play(Paths.sound('confirmMenu')).onComplete = () ->
 				{
 					MusicBeatState.switchState(new TitleState());
 				};
+		
+				canUpdate = false;
+				thread.cancel();
 			}
 
 			if (loopTimes >= maxLoopTimes)
