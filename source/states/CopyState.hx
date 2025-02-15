@@ -121,7 +121,6 @@ class CopyState extends MusicBeatState
 				};
 		
 				canUpdate = false;
-				thread.cancel();
 			}
 
 			if (loopTimes >= maxLoopTimes)
