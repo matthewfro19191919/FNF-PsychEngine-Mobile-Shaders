@@ -90,7 +90,7 @@ class CoolUtil
 		return newValue / tempMult;
 	}
 
-	#if (android || linux)
+	#if linux
 	public static function sortAlphabetically(list:Array<String>):Array<String> {
 		if (list == null) return [];
 
