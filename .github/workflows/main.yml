@@ -34,7 +34,7 @@ jobs:
             artifactPath: export/release/macos/bin/*
           - name: Android
             os: macos-15
-            buildArgs: "android -ONLY_ARMV7 -D HXCPP_PAGESIZE_4K"
+            buildArgs: "android -ONLY_ARMV7"
             setupCommand: sh ./setup/mobile.sh
             artifactName: androidBuild
             artifactPath: "export/release/android/bin/app/build/outputs/apk/release/*.apk"
