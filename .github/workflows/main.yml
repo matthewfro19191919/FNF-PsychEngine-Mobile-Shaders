@@ -24,7 +24,7 @@ jobs:
             os: ubuntu-22.04
             buildArgs: linux
             setupCommand: sh ./setup/unix.sh
-            artifactName: linuxBuild
+            artifactName: linuxArm64Build
             artifactPath: export/release/linux/bin/*
           - name: Linux ARM64
             os: ubuntu-22.04
