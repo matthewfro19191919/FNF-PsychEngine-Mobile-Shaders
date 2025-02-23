@@ -303,7 +303,7 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 	#if (sys && !android)
 	function onChangeVSync()
 	{
-		var file:String = StorageUtil.rootDir + "vsync.txt";
+		var file:String = lime.system.System.applicationStorageDirectory + "vsync.txt";
 		if(FileSystem.exists(file))
 			FileSystem.deleteFile(file);
 		File.saveContent(file, Std.string(ClientPrefs.data.vsync));
