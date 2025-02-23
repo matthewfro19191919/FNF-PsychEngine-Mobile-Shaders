@@ -75,7 +75,7 @@ class StorageUtil
 		}
 		catch (e:Dynamic)
 		{
-			CoolUtil.showPopUp(Language.getPhrase('create_directory_error', 'Please create directory to\n{1}\nPress OK to close the game', [StorageUtil.getStorageDirectory(true)]), Language.getPhrase('mobile_error', "Error!"));
+			CoolUtil.showPopUp(Language.getPhrase('create_directory_error', 'Please create directory to\n{1}\nPress OK to close the game', [StorageUtil.getStorageDirectory()]), Language.getPhrase('mobile_error', "Error!"));
 			lime.system.System.exit(1);
 		}
 	}
