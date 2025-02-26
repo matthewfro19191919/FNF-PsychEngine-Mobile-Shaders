@@ -1,5 +1,6 @@
 package states;
 
+import sys.thread.Thread;
 import backend.Highscore;
 import backend.StageData;
 import backend.WeekData;
@@ -264,6 +265,11 @@ class PlayState extends MusicBeatState
 	// Callbacks for stages
 	public var startCallback:Void->Void = null;
 	public var endCallback:Void->Void = null;
+
+	private var shutdownThread:Bool = false;
+	private var gameFroze:Bool = false;
+	private var requiresSyncing:Bool = false;
+	private var lastCorrectSongPos:Float = -1.0;
 
 	private static var _lastLoadedModDirectory:String = '';
 	public static var nextReloadAll:Bool = false;
@@ -1290,6 +1296,8 @@ class PlayState extends MusicBeatState
 		#end
 		setOnScripts('songLength', songLength);
 		callOnScripts('onSongStart');
+
+		runSongSyncThread();
 	}
 
 	private var noteTypes:Array<String> = [];
@@ -1628,6 +1636,7 @@ class PlayState extends MusicBeatState
 			paused = false;
 			callOnScripts('onResume');
 			resetRPC(startTimer != null && startTimer.finished);
+			runSongSyncThread();
 		}
 	}
 
@@ -1639,6 +1648,8 @@ class PlayState extends MusicBeatState
 		{
 			resetRPC(Conductor.songPosition > 0.0);
 		}
+		shutdownThread = false;
+		runSongSyncThread();
 	}
 
 	override public function onFocusLost():Void
@@ -1648,6 +1659,7 @@ class PlayState extends MusicBeatState
 		{
 			DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 		}
+		shutdownThread = true;
 	}
 	#end
 
@@ -3242,6 +3254,8 @@ class PlayState extends MusicBeatState
 
 		NoteSplash.configs.clear();
 		instance = null;
+		shutdownThread = true;
+		FlxG.signals.preUpdate.remove(checkForResync);
 		super.destroy();
 	}
 
@@ -3783,5 +3797,44 @@ class PlayState extends MusicBeatState
 				return false;
 		}
 		return false;
+	}
+
+	function checkForResync()
+	{
+		if (endingSong || paused || shutdownThread)
+			return;
+
+		if (requiresSyncing)
+		{
+			requiresSyncing = false;
+			setSongTime(lastCorrectSongPos);
+		}
+
+		gameFroze = false;
+	}
+
+	public function runSongSyncThread()
+	{
+		Thread.create(function()
+		{
+			while (!endingSong && !paused && !shutdownThread)
+			{
+				if (requiresSyncing)
+					continue;
+
+				if (gameFroze)
+				{
+					lastCorrectSongPos = Conductor.songPosition;
+					requiresSyncing = true;
+					continue;
+				}
+				gameFroze = true;
+
+				Sys.sleep(0.25);
+			}
+		});
+
+		if (!FlxG.signals.preUpdate.has(checkForResync))
+			FlxG.signals.preUpdate.add(checkForResync);
 	}
 }
