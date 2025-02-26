@@ -33,8 +33,8 @@ class FPSCounter extends TextField
 	**/
 	public var memoryMegas(get, never):Float;
 
-    @:noCompletion private var lastFramerateUpdateTime:Float;
-    @:noCompletion private var updateTime:Int;
+	@:noCompletion private var lastFramerateUpdateTime:Float;
+	@:noCompletion private var updateTime:Int;
 	@:noCompletion private var framesCount:Int;
 	@:noCompletion private var prevTime:Int;
 
@@ -88,17 +88,19 @@ class FPSCounter extends TextField
 		var currentTime = openfl.Lib.getTimer();
 		framesCount++;
 
-        if (currentTime >= updateTime) {
-            var elapsed = currentTime - prevTime;
-            currentFPS = Math.ceil((framesCount * 1000) / elapsed);
-            framesCount = 0;
-            prevTime = currentTime;
-            updateTime = currentTime + 500;
-        }
+		if (currentTime >= updateTime)
+		{
+			var elapsed = currentTime - prevTime;
+			currentFPS = Math.ceil((framesCount * 1000) / elapsed);
+			framesCount = 0;
+			prevTime = currentTime;
+			updateTime = currentTime + 500;
+		}
 
 		// Set Update and Draw framerate to the current FPS every 1.5 second to prevent "slowness" issue
 		if ((FlxG.updateFramerate >= currentFPS + 5 || FlxG.updateFramerate <= currentFPS - 5)
-			&& haxe.Timer.stamp() - lastFramerateUpdateTime >= 1.5 && currentFPS >= 30)
+			&& haxe.Timer.stamp() - lastFramerateUpdateTime >= 1.5
+			&& currentFPS >= 30)
 		{
 			FlxG.updateFramerate = FlxG.drawFramerate = currentFPS;
 			lastFramerateUpdateTime = haxe.Timer.stamp();
