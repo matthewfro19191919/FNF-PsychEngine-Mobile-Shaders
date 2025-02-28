@@ -926,7 +926,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 					if(FlxG.sound.music.playing)
 						setSongPlaying(false);
 
-					var shiftAdd:Int = touchPad.buttonY.pressed || FlxG.keys.pressed.SHIFT ? 4 : 1;
+					var shiftAdd:Int = (touchPad.buttonY.pressed || FlxG.keys.pressed.SHIFT ? 4 : 1);
 
 					if(touchPad.buttonLeft.justPressed || FlxG.keys.justPressed.A)
 					{
@@ -1371,7 +1371,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 							var closest = closeNotes[0];
 							if(closest != null && (!closest.isEvent || !lockedEvents))
 							{
-								if(touchPad.buttonY.pressed || holdingAlt) // Select Note/Event
+								if(touchPad.buttonH.pressed || holdingAlt) // Select Note/Event
 								{
 									var sel = selectedNotes.copy();
 									if(!selectedNotes.contains(closest))
@@ -1379,7 +1379,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 										selectedNotes.push(closest);
 										addUndoAction(SELECT_NOTE, {old: sel, current: selectedNotes.copy()});
 									}
-									else if(!touchPad.buttonY.pressed || !holdingAlt)
+									else if(!touchPad.buttonH.pressed || !holdingAlt)
 									{
 										resetSelectedNotes();
 										selectedNotes.remove(closest);
@@ -1468,7 +1468,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 				}
 				else if(!ignoreClickForThisFrame)
 				{
-					if(touch.justPressed)
+					if(touch.justPressed && !touchPad.buttonH.pressed)
 						resetSelectedNotes();
 		
 					dummyArrow.visible = false;
@@ -1764,8 +1764,8 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 			var sineValue:Float = 0.75 + Math.cos(Math.PI * noteSelectionSine * (isMovingNotes ? 8 : 2)) / 4;
 			//trace(sineValue);
 
-			var qPress = (touchPad.buttonDown2.justPressed || FlxG.keys.justPressed.Q);
-			var ePress = (touchPad.buttonUp2.justPressed || FlxG.keys.justPressed.E);
+			var qPress = (touchPad.buttonUp2.justPressed || FlxG.keys.justPressed.Q);
+			var ePress = (touchPad.buttonDown2.justPressed || FlxG.keys.justPressed.E);
 			var addSus = (touchPad.buttonY.pressed || FlxG.keys.pressed.SHIFT ? 4 : 1) * (Conductor.stepCrochet / 2);
 			if(qPress) addSus *= -1;
 
