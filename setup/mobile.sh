@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 cd ..
 echo Making the main haxelib and setuping folder in same time..
 mkdir ~/haxelib && haxelib setup ~/haxelib

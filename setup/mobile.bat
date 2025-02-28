@@ -1,7 +1,6 @@
 @echo off
 color 0a
 cd ..
-@echo on
 echo Installing dependencies...
 echo This might take a few moments depending on your internet speed.
 haxelib git hxcpp https://github.com/mcagabe19-stuff/hxcpp --quiet
