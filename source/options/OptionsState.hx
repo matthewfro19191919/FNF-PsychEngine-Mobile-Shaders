@@ -30,13 +30,7 @@ class OptionsState extends MusicBeatState
 			case 'Note Colors':
 				openSubState(new options.NotesColorSubState());
 			case 'Controls':
-				if (controls.mobileC)
-				{
-					persistentUpdate = false;
-					openSubState(new mobile.substates.MobileControlSelectSubState());
-				}
-				else
-					openSubState(new options.ControlsSubState());
+				openSubState(new options.ControlsSubState());
 			case 'Graphics':
 				openSubState(new options.GraphicsSettingsSubState());
 			case 'Visuals':
@@ -69,6 +63,16 @@ class OptionsState extends MusicBeatState
 		bg.screenCenter();
 		add(bg);
 
+		if (controls.mobileC)
+		{
+			tipText = new FlxText(150, FlxG.height - 24, 0, 'Press ' + (FlxG.onMobile ? 'C' : 'CTRL or C') + ' to Go Mobile Controls Menu', 16);
+			tipText.setFormat("VCR OSD Mono", 17, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			tipText.borderSize = 1.25;
+			tipText.scrollFactor.set();
+			tipText.antialiasing = ClientPrefs.data.antialiasing;
+			add(tipText);
+		}
+
 		grpOptions = new FlxTypedGroup<Alphabet>();
 		add(grpOptions);
 
@@ -88,7 +92,7 @@ class OptionsState extends MusicBeatState
 		changeSelection();
 		ClientPrefs.saveSettings();
 
-		addTouchPad('UP_DOWN', 'A_B');
+		addTouchPad('UP_DOWN', 'A_B_C');
 
 		super.create();
 	}
@@ -101,8 +105,8 @@ class OptionsState extends MusicBeatState
 		DiscordClient.changePresence("Options Menu", null);
 		#end
 		controls.isInSubstate = false;
-        	removeTouchPad();
-		addTouchPad('UP_DOWN', 'A_B');
+		removeTouchPad();
+		addTouchPad('UP_DOWN', 'A_B_C');
 		persistentUpdate = true;
 	}
 
@@ -115,6 +119,12 @@ class OptionsState extends MusicBeatState
 				changeSelection(-1);
 			if (controls.UI_DOWN_P)
 				changeSelection(1);
+			
+			if (touchPad.buttonC.justPressed || FlxG.keys.justPressed.CONTROL && controls.mobileC)
+			{
+				persistentUpdate = false;
+				openSubState(new MobileControlSelectSubState());
+			}
 
 			if (controls.BACK)
 			{
