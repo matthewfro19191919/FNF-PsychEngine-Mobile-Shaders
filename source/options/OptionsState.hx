@@ -65,6 +65,7 @@ class OptionsState extends MusicBeatState
 
 		if (controls.mobileC)
 		{
+			var tipText:FlxText;
 			tipText = new FlxText(150, FlxG.height - 24, 0, 'Press ' + (FlxG.onMobile ? 'C' : 'CTRL or C') + ' to Go Mobile Controls Menu', 16);
 			tipText.setFormat("VCR OSD Mono", 17, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			tipText.borderSize = 1.25;
@@ -123,7 +124,7 @@ class OptionsState extends MusicBeatState
 			if (touchPad.buttonC.justPressed || FlxG.keys.justPressed.CONTROL && controls.mobileC)
 			{
 				persistentUpdate = false;
-				openSubState(new MobileControlSelectSubState());
+				openSubState(new mobile.substates.MobileControlSelectSubState());
 			}
 
 			if (controls.BACK)
