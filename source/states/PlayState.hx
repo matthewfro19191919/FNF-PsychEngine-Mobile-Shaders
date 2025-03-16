@@ -33,6 +33,7 @@ import substates.PauseSubState;
 import substates.GameOverSubstate;
 
 #if !flash
+import openfl.filters.BitmapFilter;
 import openfl.filters.ShaderFilter;
 #end
 
