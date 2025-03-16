@@ -91,6 +91,14 @@ class PlayState extends MusicBeatState
 		['Sick!', 1], //From 90% to 99%
 		['Perfect!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
 	];
+	public var modchartTweens:Map<String, FlxTween> = new Map<String, FlxTween>();
+	public var modchartSprites:Map<String, ModchartSprite> = new Map<String, ModchartSprite>();
+	public var modchartTimers:Map<String, FlxTimer> = new Map<String, FlxTimer>();
+	public var modchartSounds:Map<String, FlxSound> = new Map<String, FlxSound>();
+	public var modchartTexts:Map<String, ModchartText> = new Map<String, ModchartText>();
+	public var shader_chromatic_abberation:ChromaticAberrationEffect;
+	public var modchartSaves:Map<String, FlxSave> = new Map<String, FlxSave>();
+	public var modchartObjects:Map<String, FlxSprite> = new Map<String, FlxSprite>();
 
 	//event variables
 	private var isCameraOnForcedPos:Bool = false;
@@ -851,8 +859,12 @@ class PlayState extends MusicBeatState
 		#end
 	}
 
-	public function getLuaObject(tag:String):Dynamic
-		return variables.get(tag);
+	public function getLuaObject(tag:String, text:Bool=true):FlxSprite {
+		if(modchartObjects.exists(tag))return modchartObjects.get(tag);
+		if(modchartSprites.exists(tag))return modchartSprites.get(tag);
+		if(text && modchartTexts.exists(tag))return modchartTexts.get(tag);
+		return null;
+	}
 
 public function addShaderToCamera(cam:String,effect:ShaderEffect){//STOLE FROM ANDROMEDA AND PSYCH ENGINE 0.5.1 WITH SHADERS
     
@@ -1706,6 +1718,13 @@ public function addShaderToCamera(cam:String,effect:ShaderEffect){//STOLE FROM A
 			}
 			FlxTimer.globalManager.forEach(function(tmr:FlxTimer) if(!tmr.finished) tmr.active = false);
 			FlxTween.globalManager.forEach(function(twn:FlxTween) if(!twn.finished) twn.active = false);
+
+			for (tween in modchartTweens) {
+				tween.active = false;
+			}
+			for (timer in modchartTimers) {
+				timer.active = false;
+			}
 		}
 
 		super.openSubState(SubState);
@@ -1725,6 +1744,13 @@ public function addShaderToCamera(cam:String,effect:ShaderEffect){//STOLE FROM A
 			}
 			FlxTimer.globalManager.forEach(function(tmr:FlxTimer) if(!tmr.finished) tmr.active = true);
 			FlxTween.globalManager.forEach(function(twn:FlxTween) if(!twn.finished) twn.active = true);
+
+			for (tween in modchartTweens) {
+				tween.active = true;
+			}
+			for (timer in modchartTimers) {
+				timer.active = true;
+			}
 
 			paused = false;
 			callOnScripts('onResume');
@@ -2130,6 +2156,13 @@ public function addShaderToCamera(cam:String,effect:ShaderEffect){//STOLE FROM A
 
 				persistentUpdate = false;
 				persistentDraw = false;
+				for (tween in modchartTweens) {
+					tween.active = true;
+				}
+				for (timer in modchartTimers) {
+					timer.active = true;
+				}
+
 				FlxTimer.globalManager.clear();
 				FlxTween.globalManager.clear();
 				FlxG.camera.setFilters([]);
