@@ -52,6 +52,8 @@ import psychlua.LuaUtils;
 import psychlua.HScript;
 #end
 
+import psychlua.FunkinLua.ModchartText;
+	
 #if HSCRIPT_ALLOWED
 import psychlua.HScript.HScriptInfos;
 import crowplexus.iris.Iris;
