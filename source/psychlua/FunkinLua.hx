@@ -1863,5 +1863,53 @@ class FunkinLua {
 		#end
 		return false;
 	}
+}class ModchartSprite extends FlxSprite
+{
+	public var wasAdded:Bool = false;
+	//public var isInFront:Bool = false;
+
+	public function new(?x:Float = 0, ?y:Float = 0)
+	{
+		super(x, y);
+		antialiasing = ClientPrefs.globalAntialiasing;
+	}
+}
+
+class ModchartText extends FlxText
+{
+	public var wasAdded:Bool = false;
+	public function new(x:Float, y:Float, text:String, width:Float)
+	{
+		super(x, y, width, text, 16);
+		setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		cameras = [PlayState.instance.camHUD];
+		scrollFactor.set();
+		borderSize = 2;
+	}
+}
+
+class DebugLuaText extends FlxText
+{
+	private var disableTime:Float = 6;
+	public var parentGroup:FlxTypedGroup<DebugLuaText>;
+	public function new(text:String, parentGroup:FlxTypedGroup<DebugLuaText>, color:FlxColor) {
+		this.parentGroup = parentGroup;
+		super(10, 10, 0, text, 16);
+		setFormat(Paths.font("vcr.ttf"), 20, color, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		scrollFactor.set();
+		borderSize = 1;
+	}
+
+	override function update(elapsed:Float) {
+		super.update(elapsed);
+		disableTime -= elapsed;
+		if(disableTime <= 0) {
+			kill();
+			parentGroup.remove(this);
+			destroy();
+		}
+		else if(disableTime < 1) alpha = disableTime;
+	}
+
 }
 #end
