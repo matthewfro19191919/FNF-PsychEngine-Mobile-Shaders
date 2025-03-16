@@ -11,7 +11,7 @@ permissions:
 
 env:
   PROJECT_NAME: PsychEngine
-  REPO_PATH: MobilePorting/FNF-PsychEngine-Mobile
+  REPO_PATH: matthewfro19191919/FNF-PsychEngine-Mobile-Shaders
 
 jobs:
   get-commit-hash:
