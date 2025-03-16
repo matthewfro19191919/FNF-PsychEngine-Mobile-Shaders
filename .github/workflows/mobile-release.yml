@@ -31,12 +31,6 @@ jobs:
     strategy:
       matrix:
         include:
-          - name: Android
-            os: macos-15
-            buildArgs: "android -final -D officialBuild"
-            setupCommand: sh ./setup/unix.sh
-            artifactName: androidBuild
-            artifactPath: "export/release/android/bin/app/build/outputs/apk/release/*.apk"
           - name: iOS
             os: macos-15
             setupCommand: sh ./setup/unix.sh
@@ -57,15 +51,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions: write-all
     steps:
-      - name: Download Android Build
-        uses: actions/download-artifact@main
-        with:
-           name: androidBuild
-           path: /home/runner
-
-      - name: Move Android File
-        run: mv /home/runner/${{ env.PROJECT_NAME }}-release.apk /home/runner/${{ env.PROJECT_NAME }}-Android.apk
-
       - name: Download iOS Build
         uses: actions/download-artifact@main
         with:
