@@ -5,6 +5,8 @@ import backend.WeekData;
 import backend.Highscore;
 import backend.Song;
 
+import Shaders;
+
 import openfl.Lib;
 import openfl.utils.Assets;
 import openfl.display.BitmapData;
