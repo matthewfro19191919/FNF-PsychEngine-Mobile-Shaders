@@ -1527,8 +1527,67 @@ class FunkinLua {
 			#else
 			luaTrace("setSoundPitch: Sound Pitch is not supported on this platform!", false, false, FlxColor.RED);
 			#end
+		});		Lua_helper.add_callback(lua, "addChromaticAbberationShader", function(camera:String, chromeOffset:Float = 0.005) {
+            
+			PlayState.instance.addShaderToCamera(camera, new ChromaticAberrationEffect(chromeOffset));
+		
 		});
 
+		Lua_helper.add_callback(lua, "addScanlineShader", function(camera:String, lockAlpha:Bool=false) {
+			
+			PlayState.instance.addShaderToCamera(camera, new ScanlineEffect(lockAlpha));
+			
+		});  
+
+		Lua_helper.add_callback(lua, "addTiltshiftShader", function(camera:String, blurAmount:Float=1.0, center:Float=1.0) {
+			
+			PlayState.instance.addShaderToCamera(camera, new TiltshiftEffect(blurAmount, center));
+			
+		});
+		Lua_helper.add_callback(lua, "addVCRShader", function(camera:String, glitchFactor:Float = 0.0, distortion:Bool=true, perspectiveOn:Bool=true, vignetteMoving:Bool=true) {
+			
+			PlayState.instance.addShaderToCamera(camera, new VCRDistortionEffect(glitchFactor, distortion, perspectiveOn, vignetteMoving));
+			
+		});
+		Lua_helper.add_callback(lua, "addGlitchShader", function(camera:String, waveSpeed:Float = 0.1, waveFrq:Float = 0.1, waveAmp:Float = 0.1) {
+			
+			PlayState.instance.addShaderToCamera(camera, new GlitchEffect(waveSpeed, waveFrq, waveAmp));
+			
+		});
+		Lua_helper.add_callback(lua, "addPulseShader", function(camera:String, waveSpeed:Float = 0.1, waveFrq:Float = 0.1, waveAmp:Float = 0.1) {
+			
+			PlayState.instance.addShaderToCamera(camera, new PulseEffect(waveSpeed, waveFrq, waveAmp));
+			
+		});
+		Lua_helper.add_callback(lua, "addDistortionShader", function(camera:String, waveSpeed:Float = 0.1, waveFrq:Float = 0.1, waveAmp:Float = 0.1) {
+			
+			PlayState.instance.addShaderToCamera(camera, new DistortBGEffect(waveSpeed, waveFrq, waveAmp));
+			
+		});
+		Lua_helper.add_callback(lua, "addInvertShader", function(camera:String, lockAlpha:Bool=false) {
+			
+			PlayState.instance.addShaderToCamera(camera, new InvertColorsEffect(lockAlpha));
+			
+		});  
+					
+		Lua_helper.add_callback(lua, "addGreyscaleShader", function(camera:String) {
+			
+			PlayState.instance.addShaderToCamera(camera, new GreyscaleEffect());
+			
+		});
+					
+		Lua_helper.add_callback(lua, "addBloomShader", function(camera:String, intensity:Float = 0.35, blurSize:Float=1.0/512.0) {
+			
+			PlayState.instance.addShaderToCamera(camera, new BloomEffect(blurSize, intensity));
+			
+		});
+					
+		Lua_helper.add_callback(lua, "clearEffects", function(camera:String) {
+			
+            		PlayState.instance.clearShaderFromCamera(camera);
+			
+		});
+			
 		// mod settings
 		addLocalCallback("getModSetting", function(saveTag:String, ?modName:String = null) {
 			#if MODS_ALLOWED
